@@ -13,11 +13,21 @@ import useStorage from '../../api/useStorage'
 import NewPatientForm from '../../forms/NewPatientForm'
 import PatientCard from './PatientCard'
 
+function sortPatients(patients) {
+    let patientList = Object.keys(patients).map(key => patients[key])
+    patientList.sort((a, b) => {
+        let aValue = a.statusLevel !== undefined ? a.statusLevel : 3
+        let bValue = b.statusLevel !== undefined ? b.statusLevel : 3
+        return aValue - bValue
+    })
+    return patientList
+}
+
 
 function PatientListing(props) {
 
     const [open, setOpen] = React.useState(false)
-    const [patients, setPatients] = useStorage("patients", [])
+    const [patients, setPatients] = useStorage("patients", {})
 
     function deletePatients() {
         setPatients([])
@@ -27,6 +37,9 @@ function PatientListing(props) {
         setOpen(false)
     }
 
+    const sortedPatients = sortPatients(patients)
+    console.log(sortedPatients)
+
     return (
         <>
             <Grid item xs={12}>
@@ -34,7 +47,7 @@ function PatientListing(props) {
                     Patient Listing
                 </Typography>
             </Grid>
-            {Object.keys(patients).map(key => <PatientCard key={key} {...patients[key]} />)}
+            {sortedPatients.map((patient, index) => <PatientCard key={index} {...patient} />)}
             <Grid item xs={2}>
                 <Tooltip
                     title="Delete Patients"

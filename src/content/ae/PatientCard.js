@@ -3,6 +3,7 @@ import React from 'react'
 
 // MUI
 import { Avatar, Box, Button, ButtonGroup, Card, CardActionArea, CardActions, CardHeader, Grid } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 
 // MUI Icons
 import FolderIcon from '@mui/icons-material/Folder'
@@ -12,6 +13,34 @@ import useStorage from '../../api/useStorage'
 import TCCC from '../../forms/tccc/TCCC'
 import { useNavigate } from 'react-router-dom'
 import VitalsForm from '../../forms/ae/VitalsForm'
+
+function PatienIcon(props) {
+    const theme = useTheme()
+    const statusLevel  = props.statusLevel !== undefined ? props.statusLevel : 3
+    const {setStatusLevel} = props
+    const statusColors = [
+        theme.palette.error.dark,
+        theme.palette.warning.dark,
+        theme.palette.success.dark,
+        undefined
+    ]
+
+    function handleClick(event) {
+        event.stopPropagation()
+        setStatusLevel((statusLevel + 1) % statusColors.length)
+    }
+
+    return (
+        <Avatar
+            onClick={handleClick}
+            sx={{
+                bgcolor: statusColors[statusLevel % statusColors.length]
+            }}
+        >
+            <FolderIcon />
+        </Avatar>
+    )
+}
 
 function PatientCard(props) {
     const {
@@ -66,6 +95,11 @@ function PatientCard(props) {
     function addEntry(data) {
         updatePatient("vitals", [...patient.vitals || [], data])
     }
+
+    function setStatusLevel(newValue) {
+        console.log(newValue)
+        updatePatient("statusLevel", newValue)
+    }
     
     return (
         <Grid item xs={12}>
@@ -78,7 +112,7 @@ function PatientCard(props) {
                         title={`${firstName} ${lastName}`}
                         titleTypographyProps={{ variant: "h6" }}
                         subheader={dodid}
-                        avatar={<Avatar><FolderIcon /></Avatar>}
+                        avatar={<PatienIcon statusLevel={patient.statusLevel} setStatusLevel={setStatusLevel} />}
                     />
                 </CardActionArea>
                 <CardActions>
