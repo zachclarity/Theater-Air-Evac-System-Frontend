@@ -56,13 +56,10 @@ function PatientPage(props) {
                             label="Overview"
                         />
                         <Tab
-                            label="Demo"
+                            label="Notes"
                         />
                         <Tab
-                            label="Orders"
-                        />
-                        <Tab
-                            label="MEDS"
+                            label="Meds"
                         />
                         <Tab
                             label="Assessment"
@@ -77,13 +74,13 @@ function PatientPage(props) {
                         updatePatient={updatePatient}
                     />
                 </TabPanel>
-                <TabPanel value={3}>
+                <TabPanel value={2}>
                     <OrdersTab
                         orders={patient.orders || []}
                         updatePatient={updatePatient}
                     />
                 </TabPanel>
-                <TabPanel value={4}>
+                <TabPanel value={3}>
                     <MedsTab
                         meds={patient.meds || []}
                         updatePatient={updatePatient}

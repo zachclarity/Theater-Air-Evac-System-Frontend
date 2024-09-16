@@ -2,7 +2,7 @@
 import React from 'react'
 
 // MUI
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from '@mui/material'
 
 const blankEntry = {
     datetime: new Date(),

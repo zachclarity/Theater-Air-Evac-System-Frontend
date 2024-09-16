@@ -17,7 +17,7 @@ function NewOrdersSection(props) {
     return (
         <>
             <TextField
-                label="New Orders"
+                label="Notes"
                 fullWidth
                 multiline
                 rows={3}
@@ -47,7 +47,7 @@ function Order(props) {
 
     return (
         <TextField
-            label="Orders"
+            label="Notes"
             fullWidth
             multiline
             rows={3}
@@ -72,7 +72,7 @@ function OrdersTab(props) {
     return (
         <Stack spacing={1}>
             <Divider>
-                Latest Order
+                Latest Note
             </Divider>
             {
                 latestOrder
@@ -82,13 +82,13 @@ function OrdersTab(props) {
                     null
             }
             <Divider>
-                New Order
+                New Note
             </Divider>
             <NewOrdersSection
                 addOrder={addOrder}
             />
             <Divider>
-                All Orders
+                All Notes
             </Divider>
             {reversed.map((order, index) => <Order key={index} {...order} />)}
         </Stack>
@@ -96,3 +96,6 @@ function OrdersTab(props) {
 }
 
 export default OrdersTab
+export {
+    NewOrdersSection
+}

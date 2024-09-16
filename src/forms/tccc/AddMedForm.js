@@ -25,7 +25,10 @@ function AddMedForm(props) {
     const [data, setData] = React.useState(emptyData)
 
     function submit() {
-        addMedication(data)
+        addMedication({
+            ...data,
+            medication: data.name
+        })
         handleClose()
     }
 

@@ -13,6 +13,9 @@ import useStorage from '../../api/useStorage'
 import TCCC from '../../forms/tccc/TCCC'
 import { useNavigate } from 'react-router-dom'
 import VitalsForm from '../../forms/ae/VitalsForm'
+import BlankTCCC from '../../forms/blankTccc/BlankTCCC'
+import AddMedForm from '../../forms/tccc/AddMedForm'
+import NotesForm from '../../forms/ae/NotesForm'
 
 function PatienIcon(props) {
     const theme = useTheme()
@@ -65,21 +68,15 @@ function PatientCard(props) {
 
     const [tcccOpen, setTccOpen] = React.useState(false)
     const [vitalsOpen, setVitalsOpen] = React.useState(false)
+    const [medsOpen, setMedsOpen] = React.useState(false)
+    const [notesOpen, setNotesOpen] = React.useState(false)
 
     function close() {
         setTccOpen(false)
         setVitalsOpen(false)
+        setMedsOpen(false)
+        setNotesOpen(false)
     }
-
-    // function addDeltaEntry(entry) {
-    //     let tempDoc = {...af3899, af3899d: af3899.af3899d || []}
-    //     tempDoc.af3899d = [...tempDoc.af3899d, entry]
-    //     let tempDocs = [...docs]
-    //     tempDocs.splice(af3899Index, 1, tempDoc)
-    //     setDocs(tempDocs)
-    // }
-
-
 
     function updatePatient(key, value) {
         let newPatient = {
@@ -96,8 +93,16 @@ function PatientCard(props) {
         updatePatient("vitals", [...patient.vitals || [], data])
     }
 
+    function addMedsEntry(data) {
+        updatePatient("meds", [...patient.meds || [], data])
+    }
+
+    function addNotesEntry(data) {
+        // we're changing orders to notes
+        updatePatient("orders", [...patient.orders || [], data])
+    }
+
     function setStatusLevel(newValue) {
-        console.log(newValue)
         updatePatient("statusLevel", newValue)
     }
     
@@ -121,7 +126,6 @@ function PatientCard(props) {
                         <Button
                             variant="contained"
                             onClick={() => setTccOpen(true)}
-                            disabled={tccc === null}
                         >
                             TCCC
                         </Button>
@@ -133,9 +137,15 @@ function PatientCard(props) {
                         </Button>
                         <Button
                             variant="contained"
-                            disabled
+                            onClick={() => setMedsOpen(true)}
                         >
-                            ISBAR
+                            Meds
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={() => setNotesOpen(true)}
+                        >
+                            Notes
                         </Button>
                     </ButtonGroup>
                 </CardActions>
@@ -148,12 +158,26 @@ function PatientCard(props) {
                         data={tccc.data}
                     />
                     :
-                    null
+                    <BlankTCCC
+                        open={tcccOpen}
+                        close={close}
+                        patient={patient}
+                    />
             }
             <VitalsForm
                 open={vitalsOpen}
                 close={close}
                 addEntry={addEntry}
+            />
+            <AddMedForm
+                open={medsOpen}
+                close={close}
+                addMedication={addMedsEntry}
+            />
+            <NotesForm
+                open={notesOpen}
+                close={close}
+                addNote={addNotesEntry}
             />
         </Grid>
     )
