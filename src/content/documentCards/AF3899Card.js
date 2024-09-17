@@ -34,7 +34,7 @@ function AF3899Card(props) {
     const [deltaOpen, setDeltaOpen] = React.useState(false)
     const [iotaOpen, setIotaOpen] = React.useState(false)
     const [docs, setDocs] = useStorage(`${dodid}-documents`, [])
-    const [patients] = useStorage("patients", [])
+    const [patients] = useStorage("patients", {})
     const doc = docs[index]
     let patient = patients[dodid]
     

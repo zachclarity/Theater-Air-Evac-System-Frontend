@@ -202,7 +202,7 @@ function DocumentCard(props) {
 function PatientPage(props) {
 
     const { dodid } = useParams()
-    const [patients, setPatients] = useStorage('patients', [])
+    const [patients, setPatients] = useStorage('patients', {})
     const patient = patients[dodid]
     const [docs] = useStorage(`${patient?.dodid}-documents`, [])
     let navigate = useNavigate()

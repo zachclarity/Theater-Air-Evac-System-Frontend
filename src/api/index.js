@@ -13,7 +13,7 @@ function getLocal(key, fallback) {
 
 
 async function getPatients() {
-    let patients = getLocal("patients", [])
+    let patients = getLocal("patients", {})
     return patients
 }
 

@@ -30,7 +30,7 @@ function PatientListing(props) {
     const [patients, setPatients] = useStorage("patients", {})
 
     function deletePatients() {
-        setPatients([])
+        setPatients({})
     }
 
     function close() {
@@ -38,7 +38,6 @@ function PatientListing(props) {
     }
 
     const sortedPatients = sortPatients(patients)
-    console.log(sortedPatients)
 
     return (
         <>

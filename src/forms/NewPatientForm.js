@@ -25,7 +25,7 @@ function NewPatientForm(props) {
         close
     } = props
 
-    const [patients, setPatients] = useStorage('patients', [])
+    const [patients, setPatients] = useStorage('patients', {})
     const [patient, setPatient] = React.useState(defaultPatient)
 
     function handleClose() {
@@ -90,7 +90,7 @@ function NewPatientForm(props) {
                             "Male",
                             "Female"
                         ]}
-                        value={patient.patient}
+                        value={patient.gender}
                         onChange={(_, newValue) => setPatient({...patient, gender: newValue})}
                     />
                     <Autocomplete

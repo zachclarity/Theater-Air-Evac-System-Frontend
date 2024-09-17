@@ -43,6 +43,16 @@ function SideDrawer(props) {
                         </ListItemButton>
                     </Link>
                 </ListItem>
+                <ListItem disablePadding>
+                    <Link to="/triage" style={{color: "inherit", textDecoration: "none", width: "100%"}}>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <TableChartIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Triage" />
+                        </ListItemButton>
+                    </Link>
+                </ListItem>
             </List>
         </Drawer>
     )
