@@ -130,7 +130,7 @@ function NineLineForm(props) {
                             disabled={viewOnly}
                         />
                         <TextField
-                            label="Lat"
+                            label="Lon"
                             fullWidth
                             value={data.lon}
                             onChange={event => setData({ ...data, lon: event.target.value })}

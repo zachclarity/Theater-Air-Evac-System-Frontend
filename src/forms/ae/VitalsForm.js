@@ -31,8 +31,12 @@ function VitalsForm(props) {
     }
 
     function submit() {
-        addEntry(data)
+        addEntry({
+            ...data,
+            datetime: new Date()
+        })
         setData(blankEntry)
+        close()
     }
 
     return (

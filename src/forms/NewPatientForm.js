@@ -35,6 +35,7 @@ function NewPatientForm(props) {
 
     function submit() {
         setPatients({...patients, [patient.dodid]: patient})
+        setPatient(defaultPatient)
         close()
     }
 

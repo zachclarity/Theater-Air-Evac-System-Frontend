@@ -2,6 +2,7 @@
 import { Autocomplete, Box, Card, CardContent, CardHeader, Grid, Stack, TextField, Typography } from '@mui/material'
 import React from 'react'
 import Graph from '../../../components/Graph'
+import MultiGraph from '../../../components/MultiGraph'
 
 
 
@@ -27,34 +28,79 @@ function VitalsGraphs(props) {
     const { vitals } = props
     const times = vitals.map(entry => entry.datetime)
 
+    const pulses = vitals.map(entry => entry.pulse)
+    const maps = vitals.map(entry => entry.map)
+    const rrs = vitals.map(entry => entry.rr)
+    const spo2s = vitals.map(entry => entry.spo2)
+    const co2s = vitals.map(entry => entry.co2)
+    const pains = vitals.map(entry => entry.pain)
+
+    const allGraphs = [
+        {
+            y: pulses,
+            x: times,
+            name: "Pulse"
+        },
+        {
+            y: rrs,
+            x: times,
+            name: "Respiratory Rates"
+        },
+        {
+            y: maps,
+            x: times,
+            name: "MAP"
+        },
+        {
+            y: co2s,
+            x: times,
+            name: "CO2"
+        },
+        {
+            y: spo2s,
+            x: times,
+            name: "SPO2"
+        },
+        {
+            y: pains,
+            x: times,
+            name: "Pain"
+        }
+    ]
+
     return (
         <Grid container spacing={1}>
+            <Grid item xs={12}>
+                <MultiGraph
+                    data={allGraphs}
+                />
+            </Grid>
             <Grid item xs={12} md={6}>
                 <Graph
                     title="Pulse"
                     x={times}
-                    y={vitals.map(entry => entry.pulse)}
+                    y={pulses}
                 />
             </Grid>
             <Grid item xs={12} md={6}>
                 <Graph
                     title="MAP"
                     x={times}
-                    y={vitals.map(entry => entry.map)}
+                    y={maps}
                 />
             </Grid>
             <Grid item xs={12} md={6}>
                 <Graph
                     title="RR"
                     x={times}
-                    y={vitals.map(entry => entry.rr)}
+                    y={rrs}
                 />
             </Grid>
             <Grid item xs={12} md={6}>
                 <Graph
                     title="Oxygen"
                     x={times}
-                    y={vitals.map(entry => entry.spo2)}
+                    y={spo2s}
                 />
             </Grid>
         </Grid>
