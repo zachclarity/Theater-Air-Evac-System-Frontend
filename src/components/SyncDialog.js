@@ -15,7 +15,7 @@ function SyncDialog(props) {
 
     const [processing, setProcessing] = React.useState(false)
 
-    const [syncURL, setSyncURL] = useLocalStorage('sync-url', 'https://med.cyberdeck.swenson.software')
+    const [syncURL, setSyncURL] = useLocalStorage('sync-url', 'https://med.sabr.swenson.software')
     const [deleteOnSync, setDeleteOnSync] = useLocalStorage('delete-on-sync', false)
 
     // only sync some
