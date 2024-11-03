@@ -4,6 +4,8 @@
   "homepage": ".",
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.682.0",
+    "@aws-sdk/lib-dynamodb": "^3.685.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
