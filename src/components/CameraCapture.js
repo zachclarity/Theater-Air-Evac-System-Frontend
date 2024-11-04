@@ -9,15 +9,14 @@ const CameraCapture = (props) => {
   const streamRef = useRef(null);
   const [isStreamActive, setIsStreamActive] = useState(false);
 
-  const dodIdImages = savedImages.filter( images => images.dodid == props.dodid ) 
-
+  const currentDodId = props.dodid
   // Load saved images from localStorage on component mount
   useEffect(() => {
-    const stored = localStorage.getItem('savedImages' + props.dodid);
-    if (stored) {
-      setSavedImages(JSON.parse(stored));
-    }
-  }, []);
+      const stored = localStorage.getItem('savedImages-' + currentDodId);
+      if (stored) {
+        setSavedImages(JSON.parse(stored));
+      }
+  }, [currentDodId]);
 
   // Cleanup camera stream when component unmounts
   useEffect(() => {
@@ -28,8 +27,8 @@ const CameraCapture = (props) => {
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { facingMode: 'environment' } 
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'environment' }
       });
       videoRef.current.srcObject = stream;
       streamRef.current = stream;
@@ -66,15 +65,15 @@ const CameraCapture = (props) => {
       const timestamp = new Date().toISOString();
       const newImage = {
         id: timestamp,
-        imgData : capturedImage,
+        imgData: capturedImage,
         timestamp,
         dodid: props.dodid
       };
-      
+
       const updatedImages = [...savedImages, newImage];
       setSavedImages(updatedImages);
-      localStorage.setItem('savedImages-'  + props.dodid, JSON.stringify(updatedImages));
-      
+      localStorage.setItem('savedImages-' + props.dodid, JSON.stringify(updatedImages));
+
       setCapturedImage(null);
       startCamera();
     }
@@ -90,7 +89,7 @@ const CameraCapture = (props) => {
   const deleteFromStorage = (id) => {
     const updatedImages = savedImages.filter(img => img.id !== id);
     setSavedImages(updatedImages);
-    localStorage.setItem('savedImages'  + props.dodid, JSON.stringify(updatedImages));
+    localStorage.setItem('savedImages' + props.dodid, JSON.stringify(updatedImages));
   };
 
   const retakePhoto = () => {
@@ -100,7 +99,7 @@ const CameraCapture = (props) => {
 
 
   if (showGallery) {
-   
+
     return (
       <div className="flex flex-col items-center gap-4 p-4 max-w-md mx-auto">
         <div className="w-full flex justify-between items-center mb-4">
@@ -115,8 +114,8 @@ const CameraCapture = (props) => {
         <div className="grid grid-cols-2 gap-4 w-full">
           {savedImages.map((img) => (
             <div key={img.id} className="relative">
-              <img 
-                src={img.imgData} 
+              <img
+                src={img.imgData}
                 alt={`Captured on ${new Date(img.timestamp).toLocaleString()}`}
                 className="w-full h-auto rounded-lg shadow-lg"
               />
@@ -151,7 +150,7 @@ const CameraCapture = (props) => {
             className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
           >
             <List size={20} />
-            Gallery ({dodIdImages.length})
+            Gallery ({savedImages.length})
           </button>
           {isStreamActive && (
             <button
@@ -164,12 +163,12 @@ const CameraCapture = (props) => {
           )}
         </div>
       </div>
-      
+
       {capturedImage ? (
         <div className="w-full">
-          <img 
-            src={capturedImage} 
-            alt="Captured" 
+          <img
+            src={capturedImage}
+            alt="Captured"
             className="w-full h-auto rounded-lg shadow-lg"
           />
           <div className="flex justify-center gap-4 mt-4">
@@ -204,7 +203,7 @@ const CameraCapture = (props) => {
                 className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
               >
                 <Camera size={20} />
-                Start Camera - 
+                Start Camera -
               </button>
             ) : (
               <button
