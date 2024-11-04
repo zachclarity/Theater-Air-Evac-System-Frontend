@@ -4,7 +4,7 @@ import { Camera, Download, RotateCcw, Save, Trash2, List, X } from 'lucide-react
 const CameraCapture = (props) => {
   const [capturedImage, setCapturedImage] = useState(null);
   const [savedImages, setSavedImages] = useState([]);
-  const [showGallery, setShowGallery] = useState(false);
+  const [showGallery, setShowGallery] = useState(true);
   const videoRef = useRef(null);
   const streamRef = useRef(null);
   const [isStreamActive, setIsStreamActive] = useState(false);
@@ -101,41 +101,40 @@ const CameraCapture = (props) => {
   if (showGallery) {
 
     return (
-      <div className="flex flex-col items-center gap-4 p-4 max-w-md mx-auto">
-        <div className="w-full flex justify-between items-center mb-4">
+      <div>
+      {/* Thumbnail Grid */}
+      <div>
+
           <h2 className="text-xl font-bold">Saved Photos</h2>
           <button
             onClick={() => setShowGallery(false)}
-            className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+  
           >
             Back to Camera
           </button>
         </div>
-        <div className="grid grid-cols-2 gap-4 w-full">
+    
           {savedImages.map((img) => (
             <div key={img.id} className="relative">
               <img
                 src={img.imgData}
+                style={{ height: '150px' }}
                 alt={`Captured on ${new Date(img.timestamp).toLocaleString()}`}
-                className="w-full h-auto rounded-lg shadow-lg"
               />
-              <div className="flex justify-center gap-2 mt-2">
+              <div>
                 <button
                   onClick={() => downloadPhoto(img.data, img.timestamp)}
-                  className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
                 >
                   <Download size={16} />
                 </button>
                 <button
                   onClick={() => deleteFromStorage(img.id)}
-                  className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
                 >
                   <Trash2 size={16} />
                 </button>
               </div>
             </div>
           ))}
-        </div>
       </div>
     );
   }

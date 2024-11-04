@@ -1,5 +1,5 @@
 // React
-import React from 'react'
+import React , {useEffect} from 'react'
 
 // router
 import { BrowserRouter, HashRouter } from "react-router-dom"
@@ -40,6 +40,20 @@ const darkTheme = createTheme({
 });
 
 function App() {
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+        event.preventDefault();
+        event.returnValue = ''; // Chrome requires returnValue to be set
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+}, []);
+
   return (
     <Router>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
