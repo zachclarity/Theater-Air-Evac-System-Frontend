@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Camera, Download, RotateCcw, Save, Trash2, List, X } from 'lucide-react';
 
-const CameraCapture = () => {
+const CameraCapture = (props) => {
   const [capturedImage, setCapturedImage] = useState(null);
   const [savedImages, setSavedImages] = useState([]);
   const [showGallery, setShowGallery] = useState(false);
@@ -9,9 +9,11 @@ const CameraCapture = () => {
   const streamRef = useRef(null);
   const [isStreamActive, setIsStreamActive] = useState(false);
 
+  const dodIdImages = savedImages.filter( images => images.dodid == props.dodid ) 
+
   // Load saved images from localStorage on component mount
   useEffect(() => {
-    const stored = localStorage.getItem('savedImages');
+    const stored = localStorage.getItem('savedImages' + props.dodid);
     if (stored) {
       setSavedImages(JSON.parse(stored));
     }
@@ -59,18 +61,19 @@ const CameraCapture = () => {
     stopCamera();
   };
 
-  const saveToLocalStorage = () => {
+  const saveToLocalStorage = (dodid) => {
     if (capturedImage) {
       const timestamp = new Date().toISOString();
       const newImage = {
         id: timestamp,
-        data: capturedImage,
-        timestamp
+        imgData : capturedImage,
+        timestamp,
+        dodid: props.dodid
       };
       
       const updatedImages = [...savedImages, newImage];
       setSavedImages(updatedImages);
-      localStorage.setItem('savedImages', JSON.stringify(updatedImages));
+      localStorage.setItem('savedImages-'  + props.dodid, JSON.stringify(updatedImages));
       
       setCapturedImage(null);
       startCamera();
@@ -87,7 +90,7 @@ const CameraCapture = () => {
   const deleteFromStorage = (id) => {
     const updatedImages = savedImages.filter(img => img.id !== id);
     setSavedImages(updatedImages);
-    localStorage.setItem('savedImages', JSON.stringify(updatedImages));
+    localStorage.setItem('savedImages'  + props.dodid, JSON.stringify(updatedImages));
   };
 
   const retakePhoto = () => {
@@ -95,7 +98,9 @@ const CameraCapture = () => {
     startCamera();
   };
 
+
   if (showGallery) {
+   
     return (
       <div className="flex flex-col items-center gap-4 p-4 max-w-md mx-auto">
         <div className="w-full flex justify-between items-center mb-4">
@@ -111,7 +116,7 @@ const CameraCapture = () => {
           {savedImages.map((img) => (
             <div key={img.id} className="relative">
               <img 
-                src={img.data} 
+                src={img.imgData} 
                 alt={`Captured on ${new Date(img.timestamp).toLocaleString()}`}
                 className="w-full h-auto rounded-lg shadow-lg"
               />
@@ -146,7 +151,7 @@ const CameraCapture = () => {
             className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
           >
             <List size={20} />
-            Gallery ({savedImages.length})
+            Gallery ({dodIdImages.length})
           </button>
           {isStreamActive && (
             <button
@@ -169,7 +174,7 @@ const CameraCapture = () => {
           />
           <div className="flex justify-center gap-4 mt-4">
             <button
-              onClick={saveToLocalStorage}
+              onClick={saveToLocalStorage(props.dodid)}
               className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
             >
               <Save size={20} />
@@ -199,7 +204,7 @@ const CameraCapture = () => {
                 className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
               >
                 <Camera size={20} />
-                Start Camera
+                Start Camera - 
               </button>
             ) : (
               <button

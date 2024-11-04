@@ -222,7 +222,7 @@ function PatientPage(props) {
     return (
         <>
             <PatientInfo {...patient} remove={remove} />
-            <CameraCapture/>
+            <CameraCapture dodid={dodid} />
             {docs.map((doc, index) => <DocumentCard key={doc.lastModifed} {...doc} index={index} dodid={dodid} />)}
         </>
     )
