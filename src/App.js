@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
+import LocalStorageListener from './components/LocalStorageListener'
 
 // custom
 import Nav from './nav/Nav'
@@ -43,6 +44,7 @@ function App() {
     <Router>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <StorageContextProvider>
+          <LocalStorageListener/>
           <ThemeProvider theme={darkTheme}>
             <CssBaseline />
             <Nav />
