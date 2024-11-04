@@ -14,6 +14,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import Nav from './nav/Nav'
 import Content from './content/Content'
 import { StorageContextProvider } from './context/StorageContext'
+import LocalStorageListener from './components/LocalStorageListener'
 
 function Router(props) {
   const deployment = process.env.REACT_APP_DEPLOYMENT
@@ -48,6 +49,7 @@ function App() {
             <Nav />
             <Content />
           </ThemeProvider>
+          <LocalStorageListener/>
         </StorageContextProvider>
       </LocalizationProvider>
     </Router>

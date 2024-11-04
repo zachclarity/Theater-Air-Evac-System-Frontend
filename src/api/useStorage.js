@@ -7,6 +7,7 @@ async function getWebStorage(key, baseURL) {
     let value = null
     let setValue = () => {}
     if (key === "patients") {
+        
         let url = `${baseURL}/patients`
         let resp = await fetch(url, {
             referrerPolicy: "unsafe-url"
@@ -52,6 +53,8 @@ function useStorage(key, defaultValue) {
     let [loading, setLoading] = React.useState(true)
     React.useEffect(() => {
         async function handle() {
+            console.log("XXX X X X X X X X X X X X X")
+        console.log(localValue)
             if (url && loading) {
                 let [tmpValue, tmpSetValue] = await getWebStorage(key, url)
                 setValues({
@@ -68,7 +71,7 @@ function useStorage(key, defaultValue) {
             }
         }
         handle()
-    }, [url, key, loading, values, setValues])
+    }, [url, key, loading, localValue, values, setValues])
     if (url) {
         return [values[key]?.value ? values[key]?.value : defaultValue, values[key]?.func]
     }
