@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Camera, Download, RotateCcw, Save, Trash2, List } from 'lucide-react';
+import { Camera, Download, RotateCcw, Save, Trash2, List, X } from 'lucide-react';
 
 const CameraCapture = () => {
   const [capturedImage, setCapturedImage] = useState(null);
@@ -15,6 +15,13 @@ const CameraCapture = () => {
     if (stored) {
       setSavedImages(JSON.parse(stored));
     }
+  }, []);
+
+  // Cleanup camera stream when component unmounts
+  useEffect(() => {
+    return () => {
+      stopCamera();
+    };
   }, []);
 
   const startCamera = async () => {
@@ -33,6 +40,10 @@ const CameraCapture = () => {
   const stopCamera = () => {
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current = null;
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
       setIsStreamActive(false);
     }
   };
@@ -61,7 +72,6 @@ const CameraCapture = () => {
       setSavedImages(updatedImages);
       localStorage.setItem('savedImages', JSON.stringify(updatedImages));
       
-      // Clear current capture and return to camera
       setCapturedImage(null);
       startCamera();
     }
@@ -130,13 +140,24 @@ const CameraCapture = () => {
     <div className="flex flex-col items-center gap-4 p-4 max-w-md mx-auto">
       <div className="w-full flex justify-between items-center">
         <h2 className="text-xl font-bold">Camera</h2>
-        <button
-          onClick={() => setShowGallery(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
-        >
-          <List size={20} />
-          Gallery ({savedImages.length})
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setShowGallery(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600"
+          >
+            <List size={20} />
+            Gallery ({savedImages.length})
+          </button>
+          {isStreamActive && (
+            <button
+              onClick={stopCamera}
+              className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+            >
+              <X size={20} />
+              Close Camera
+            </button>
+          )}
+        </div>
       </div>
       
       {capturedImage ? (
