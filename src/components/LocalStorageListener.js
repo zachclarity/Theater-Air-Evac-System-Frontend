@@ -59,7 +59,6 @@ const LocalStorageListener = () => {
 
   return (
     <div>
-  
     </div>
   );
 };

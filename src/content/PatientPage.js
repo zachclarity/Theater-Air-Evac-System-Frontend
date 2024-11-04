@@ -25,6 +25,7 @@ import AF3899Card from './documentCards/AF3899Card'
 import ImageForm from '../forms/img/ImageForm'
 import ImageCard from './documentCards/ImageCard'
 import useStorage from '../api/useStorage'
+import CameraCapture from '../components/CameraCapture'
 
 function PatientActions(props) {
 
@@ -221,6 +222,7 @@ function PatientPage(props) {
     return (
         <>
             <PatientInfo {...patient} remove={remove} />
+            <CameraCapture dodid={dodid} />
             {docs.map((doc, index) => <DocumentCard key={doc.lastModifed} {...doc} index={index} dodid={dodid} />)}
         </>
     )
