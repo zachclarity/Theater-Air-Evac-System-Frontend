@@ -97,9 +97,7 @@ const CameraCapture = (props) => {
     startCamera();
   };
 
-
   if (showGallery) {
-
     return (
       <div>
       {/* Thumbnail Grid */}
