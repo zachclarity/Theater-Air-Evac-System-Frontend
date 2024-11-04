@@ -18,7 +18,7 @@ import NewPatientForm from '../forms/NewPatientForm'
 import useStorage from '../api/useStorage'
 
 
-function F(props) {
+function PatientCard(props) {
 
     const {
         firstName,
