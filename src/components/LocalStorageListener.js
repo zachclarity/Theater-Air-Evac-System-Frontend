@@ -59,8 +59,7 @@ const LocalStorageListener = () => {
 
   return (
     <div>
-      <h2>LocalStorage Listener</h2>
-      <p>Current Value: {storageValue}</p>
+  
     </div>
   );
 };
