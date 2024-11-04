@@ -25,7 +25,7 @@ import AF3899Card from './documentCards/AF3899Card'
 import ImageForm from '../forms/img/ImageForm'
 import ImageCard from './documentCards/ImageCard'
 import useStorage from '../api/useStorage'
-import Camera from '../components/Camera'
+import CameraCapture from '../components/CameraCapture'
 
 function PatientActions(props) {
 
@@ -93,7 +93,6 @@ function PatientActions(props) {
                 close={() => setForm([])}
                 dodid={patient.dodid}
             />
-            <Camera/>
         </>
     )
 }
@@ -175,9 +174,6 @@ function DocumentCard(props) {
     else if (imgURL) {
         return <ImageCard {...props} />
     }
-   /* else if (name === "Camera") {
-        return <Camera/>
-    }*/
 
     return (
         <Grid item xs={12} md={6} lg={3}>
@@ -226,6 +222,7 @@ function PatientPage(props) {
     return (
         <>
             <PatientInfo {...patient} remove={remove} />
+            <CameraCapture/>
             {docs.map((doc, index) => <DocumentCard key={doc.lastModifed} {...doc} index={index} dodid={dodid} />)}
         </>
     )
